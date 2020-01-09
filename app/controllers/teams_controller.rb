@@ -8,6 +8,13 @@ class TeamsController < ApiController
   # GET /teams/:id
   def show
     @team = Team.find(params[:id])
-    render json: @team.to_json(:include => { :ranking_days => { :only => [:points, :rank] }})
+    render json: @team.to_json(:include => {
+      :ranking_days => {
+        :include => { :day => {
+          :only => [:date] }
+        },
+        :only => [:ranking, :points]
+      }},
+    only: [:name])
   end
 end
