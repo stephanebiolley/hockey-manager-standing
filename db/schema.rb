@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_09_123311) do
+ActiveRecord::Schema.define(version: 2020_01_09_134659) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -38,4 +38,29 @@ ActiveRecord::Schema.define(version: 2020_01_09_123311) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
+  create_table "days", force: :cascade do |t|
+    t.date "date"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "ranking_days", force: :cascade do |t|
+    t.integer "day_id", null: false
+    t.integer "team_id", null: false
+    t.integer "points"
+    t.integer "ranking"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["day_id"], name: "index_ranking_days_on_day_id"
+    t.index ["team_id"], name: "index_ranking_days_on_team_id"
+  end
+
+  create_table "teams", force: :cascade do |t|
+    t.text "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  add_foreign_key "ranking_days", "days"
+  add_foreign_key "ranking_days", "teams"
 end
